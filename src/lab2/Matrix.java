@@ -4,12 +4,12 @@ package lab2;
 import java.util.Random;
 
 public class Matrix {
-    double[] data;
+    private double[] data;
     private int rows;
     private int cols;
 
     //konstruktor
-    Matrix(int rows, int cols) {
+    private Matrix(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
         data = new double[rows * cols];
@@ -61,7 +61,7 @@ public class Matrix {
         return data[r * cols + c];
     }
 
-    void set(int r, int c, double value) {
+    private void set(int r, int c, double value) {
         data[r * cols + c] = value;
     }
 
@@ -72,10 +72,10 @@ public class Matrix {
         for (int i = 0; i < rows; i++) {
             buf.append("[");
             for (int j = 0; j < cols; j++) {
-                buf.append(data[i * rows + j]);
+                buf.append(data[i*cols+j]);
                 buf.append(", ");
             }
-            buf.append(data[i * rows + cols]);
+            buf.append(data[i*cols+rows]);
             buf.append("]");
         }
         buf.append("]");
@@ -105,9 +105,12 @@ public class Matrix {
         if (rows == m.rows && cols == m.cols) {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    data[i*rows+j] = this.data[i*rows+j] + m.data[i*rows+j];
+                    data[i*cols+j] = this.data[i*cols+j] + m.data[i*cols+j];
                 }
             }
+        }
+        else{
+            throw new RuntimeException("A co to za wymiary takie brzydkie?");
         }
         return this;
     }
@@ -117,9 +120,12 @@ public class Matrix {
         if (rows == m.rows && cols == m.cols) {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    data[i*rows+j] = this.data[i*rows+j] - m.data[i*rows+j];
+                    data[i*cols+j] = this.data[i*cols+j] - m.data[i*cols+j];
                 }
             }
+        }
+        else{
+            throw new RuntimeException("A co to za wymiary takie brzydkie?");
         }
         return this;
     }
@@ -129,9 +135,12 @@ public class Matrix {
         if (rows == m.rows && cols == m.cols) {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    data[i*rows+j] = this.data[i*rows+j] * m.data[i*rows+j];
+                    data[i*cols+j] = this.data[i*cols+j] * m.data[i*cols+j];
                 }
             }
+        }
+        else{
+            throw new RuntimeException("A co to za wymiary takie brzydkie?");
         }
         return this;
     }
@@ -141,14 +150,17 @@ public class Matrix {
         if (rows == m.rows && cols == m.cols) {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    if(m.data[i*rows+j]!=0) {
-                        data[i * rows + j] = this.data[i * rows + j] / m.data[i * rows + j];
+                    if(m.data[i*cols+j]!=0) {
+                        data[i*cols+j] = this.data[i*cols+j] / m.data[i*cols+j];
                     }
                     else{
-                        System.out.println("Halo halo nie dzielimy przez zero");
+                        throw new RuntimeException("Halo halo nie dzielimy przez zero");
                     }
                 }
             }
+        }
+        else{
+            throw new RuntimeException("A co to za wymiary takie brzydkie?");
         }
         return this;
     }
