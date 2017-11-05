@@ -29,7 +29,7 @@ public class Matrix {
 
         int k = 0; //iterator
 
-        for (int i = 0; i < d.length; i++) {
+        /*for (int i = 0; i < d.length; i++) {
             for (int j = 0; j < d[i].length; j++) {
                 data[k] = d[i][j]; //wypelniam elementami
                 k++;
@@ -39,6 +39,16 @@ public class Matrix {
                     data[k] = 0;
                     k++;
                 }
+            }
+        }*/
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                if(j < d[i].length){
+                    data[k] = d[i][j];
+                } else {
+                    data[k] = 0;
+                }
+                k++;
             }
         }
     }
@@ -75,7 +85,6 @@ public class Matrix {
                 buf.append(data[i*cols+j]);
                 buf.append(", ");
             }
-            buf.append(data[i*cols+rows]);
             buf.append("]");
         }
         buf.append("]");
@@ -102,56 +111,60 @@ public class Matrix {
 
     //add
     Matrix add(Matrix m) {
+        Matrix result = new Matrix(this.rows, this.cols);
         if (rows == m.rows && cols == m.cols) {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    data[i*cols+j] = this.data[i*cols+j] + m.data[i*cols+j];
+                    result.data[i*cols+j] = this.data[i*cols+j] + m.data[i*cols+j];
                 }
             }
         }
         else{
             throw new RuntimeException("A co to za wymiary takie brzydkie?");
         }
-        return this;
+        return result;
     }
 
     //substract
     Matrix sub(Matrix m){
+        Matrix result = new Matrix(this.rows, this.cols);
         if (rows == m.rows && cols == m.cols) {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    data[i*cols+j] = this.data[i*cols+j] - m.data[i*cols+j];
+                    result.data[i*cols+j] = this.data[i*cols+j] - m.data[i*cols+j];
                 }
             }
         }
         else{
             throw new RuntimeException("A co to za wymiary takie brzydkie?");
         }
-        return this;
+        return result;
     }
 
     //multiply
     Matrix mul(Matrix m){
+        Matrix result = new Matrix(this.rows, this.cols);
         if (rows == m.rows && cols == m.cols) {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    data[i*cols+j] = this.data[i*cols+j] * m.data[i*cols+j];
+                    result.data[i*cols+j] = this.data[i*cols+j] * m.data[i*cols+j];
                 }
             }
         }
         else{
             throw new RuntimeException("A co to za wymiary takie brzydkie?");
         }
-        return this;
+        return result;
     }
 
     //divide
     Matrix div(Matrix m){
+        Matrix result = new Matrix(this.rows, this.cols);
         if (rows == m.rows && cols == m.cols) {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
                     if(m.data[i*cols+j]!=0) {
-                        data[i*cols+j] = this.data[i*cols+j] / m.data[i*cols+j];
+                        result.data[i*cols+j] = this.data[i*cols+j] / m.data[i*cols+j];
                     }
                     else{
                         throw new RuntimeException("Halo halo nie dzielimy przez zero");
@@ -162,7 +175,7 @@ public class Matrix {
         else{
             throw new RuntimeException("A co to za wymiary takie brzydkie?");
         }
-        return this;
+        return result;
     }
 
     //real matrix multiply
@@ -194,11 +207,11 @@ public class Matrix {
     }
 
     //norma Frobeniusa
-    double frobenius(Matrix m){
+    double frobenius(){
         double frob = 0;
         for(int i=0;i<rows;i++){
             for(int j=0;j<cols;j++){
-                frob += Math.pow(m.data[i*cols+j], 2);
+                frob += Math.pow(data[i*cols+j], 2);
             }
         }
         return Math.pow(frob, 1/2);

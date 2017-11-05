@@ -1,7 +1,6 @@
 package lab2;
 
 import org.junit.Test;
-
 import static org.junit.Assert.*;
 
 public class MatrixTest {
@@ -55,19 +54,19 @@ public class MatrixTest {
     }
 
     @Test
-    public void add() throws Exception {
+    public void add_test() throws Exception {
         assertArrayEquals(
-                matrix1.add(matrix2).asArray(),
-                matrix2.add(matrix1).asArray()
+                (matrix1.add(matrix2)).asArray(),
+                (matrix2.add(matrix1)).asArray()
         );
         assertArrayEquals(
-                new double[][] {{14, 16, 18, 20}, {22, 24, 26, 28}, {30, 32, 34, 36}},
+                new double[][]{{14, 16, 18, 20}, {22, 24, 26, 28}, {30, 32, 34, 36}},
                 matrix1.add(matrix2).asArray()
         );
     }
 
     @Test
-    public void sub() throws Exception {
+    public void sub_test() throws Exception {
         assertArrayEquals(
                 new double[][]{{-12, -12, -12, -12}, {-12, -12, -12, -12}, {-12, -12, -12, -12}},
                 matrix1.sub(matrix2).asArray()
@@ -76,10 +75,10 @@ public class MatrixTest {
                 new double[][]{{12, 12, 12, 12}, {12, 12, 12, 12}, {12, 12, 12, 12}},
                 matrix2.sub(matrix1).asArray()
         );
-        Matrix m = new Matrix(matrix1.sub(matrix1).asArray());
         assertEquals(
-                m.frobenius(m),
-                0
+                (matrix1.sub(matrix1)).frobenius(),
+                0,
+                1
         );
     }
 

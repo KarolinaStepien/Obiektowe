@@ -15,7 +15,7 @@ public class Main {
                 {1, 2, 3, 4},
         });
 
-        //System.out.println(matrix.toString());
+        System.out.println(matrix.toString());
 
         Matrix matrix1 = new Matrix(new double[][]{
                 {1, 2, 3, 4},
@@ -36,6 +36,6 @@ public class Main {
         System.out.println(matrix1.mul(matrix2).toString());
         System.out.println(matrix1.div(matrix2).toString());
         System.out.println(matrix1.dot(matrix2).toString());
-        System.out.println(matrix1.frobenius(matrix1));
+        System.out.println(matrix1.frobenius());
     }
 }
