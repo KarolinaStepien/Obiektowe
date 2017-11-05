@@ -15,7 +15,7 @@ public class Main {
                 {1, 2, 3, 4},
         });
 
-        System.out.println(matrix.toString());
+        //System.out.println(matrix.toString());
 
         Matrix matrix1 = new Matrix(new double[][]{
                 {1, 2, 3, 4},
@@ -29,13 +29,24 @@ public class Main {
                 {21, 22, 23, 24},
         });
 
-        int[] m = matrix1.shape();
-        System.out.printf("%d, %d", m[0], m[1]);
-        System.out.println(matrix1.add(matrix2).toString());
+        Matrix matrix3 = new Matrix(new double[][]{
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9},
+        });
+
+        //shape
+        /*int[] m = matrix1.shape();
+        System.out.printf("%d, %d", m[0], m[1]);*/
+        //reshape catching exception
+        /*matrix3.reshape(7,2);
+        System.out.println(matrix3.toString());*/
+        //operations
+        /*System.out.println(matrix1.add(matrix2).toString());
         System.out.println(matrix1.sub(matrix2).toString());
         System.out.println(matrix1.mul(matrix2).toString());
-        System.out.println(matrix1.div(matrix2).toString());
-        System.out.println(matrix1.dot(matrix2).toString());
+        System.out.println(matrix1.div(matrix2).toString());*/
+        System.out.println(matrix3.dot(matrix3).toString());
         System.out.println(matrix1.frobenius());
     }
 }

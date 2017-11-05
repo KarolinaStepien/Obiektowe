@@ -4,12 +4,12 @@ package lab2;
 import java.util.Random;
 
 public class Matrix {
-    private double[] data;
-    private int rows;
-    private int cols;
+    double[] data;
+    int rows;
+    int cols;
 
     //konstruktor
-    private Matrix(int rows, int cols) {
+    Matrix(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
         data = new double[rows * cols];
@@ -71,7 +71,7 @@ public class Matrix {
         return data[r * cols + c];
     }
 
-    private void set(int r, int c, double value) {
+    void set(int r, int c, double value) {
         data[r * cols + c] = value;
     }
 
@@ -94,7 +94,7 @@ public class Matrix {
     //reshape
     void reshape(int newRows, int newCols) {
         if (rows * cols != newRows * newCols)
-            throw new RuntimeException(String.format("%d x %d matrix can't be reshaped to %d x %d", rows, cols, newRows, newCols));
+            throw new RuntimeException(String.format("Ej ej macierzy %d x %d nie zmienimy na %d x %d", rows, cols, newRows, newCols));
         else {
             rows = newRows;
             cols = newCols;
@@ -120,7 +120,7 @@ public class Matrix {
             }
         }
         else{
-            throw new RuntimeException("A co to za wymiary takie brzydkie?");
+            throw new RuntimeException("ADD --> A co to za wymiary takie brzydkie?");
         }
         return result;
     }
@@ -136,7 +136,7 @@ public class Matrix {
             }
         }
         else{
-            throw new RuntimeException("A co to za wymiary takie brzydkie?");
+            throw new RuntimeException("SUBSTRACT --> A co to za wymiary takie brzydkie?");
         }
         return result;
     }
@@ -152,7 +152,7 @@ public class Matrix {
             }
         }
         else{
-            throw new RuntimeException("A co to za wymiary takie brzydkie?");
+            throw new RuntimeException("MULTIPLY --> A co to za wymiary takie brzydkie?");
         }
         return result;
     }
@@ -173,36 +173,27 @@ public class Matrix {
             }
         }
         else{
-            throw new RuntimeException("A co to za wymiary takie brzydkie?");
+            throw new RuntimeException("DIVIDE --> A co to za wymiary takie brzydkie?");
         }
         return result;
     }
 
-    //real matrix multiply
+    //real matrix multiplication
     Matrix dot(Matrix m){
         if (rows == m.cols && cols == m.rows){
-            Matrix newone = new Matrix(rows, m.cols);
-            newone.data = new double [rows*m.cols];
-            double[][] newarray = newone.asArray();
-            double[][] firstarray = this.asArray();
-            double[][] secondarray = m.asArray();
-            for( int i = 0; i < newone.rows; i++ ) {
-                for( int j = 0; j < newone.cols; j++ ) {
+            Matrix newone = new Matrix(this.rows, m.cols);
+            for( int i = 0; i < this.rows; i++ ) {
+                for( int j = 0; j < m.cols; j++ ) {
+                    newone.set(i, j, 0);
                     for( int k = 0; k < this.cols; k++ ) {
-                        newarray[i][j] += firstarray[i][k] * secondarray[k][j];
+                        newone.set(i, j, newone.get(i, j)+ this.get(i, k) * m.get(k, j));
                     }
-                }
-            }
-            for( int i = 0; i < newone.rows; i++ ) {
-                for (int j = 0; j < newone.cols; j++) {
-                    newone.data[i*cols+j] = newarray[i][j];
                 }
             }
             return newone;
         }
         else{
-            System.out.println("Złe wymiary macierzy ");
-            return this;
+            throw new RuntimeException(" REAL MULTIPLICATION --> A co to za wymiary takie brzydkie?");
         }
     }
 
