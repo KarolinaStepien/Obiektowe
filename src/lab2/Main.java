@@ -7,15 +7,15 @@ public class Main {
         for(double el : lala.data){
             System.out.println(el);
         }
-        // Matrix r = Matrix.random(2,3);*/
+        Matrix r = Matrix.random(2,3);*/
 
-        Matrix matrix = new Matrix(new double[][]{
+        /*Matrix matrix = new Matrix(new double[][]{
                 {1, 2, 3},
                 {1},
                 {1, 2, 3, 4},
         });
 
-        //System.out.println(matrix.toString());
+        System.out.println(matrix.toString());
 
         Matrix matrix1 = new Matrix(new double[][]{
                 {1, 2, 3, 4},
@@ -33,7 +33,7 @@ public class Main {
                 {1, 2, 3},
                 {4, 5, 6},
                 {7, 8, 9},
-        });
+        });*/
 
         //shape
         /*int[] m = matrix1.shape();
@@ -45,8 +45,13 @@ public class Main {
         /*System.out.println(matrix1.add(matrix2).toString());
         System.out.println(matrix1.sub(matrix2).toString());
         System.out.println(matrix1.mul(matrix2).toString());
-        System.out.println(matrix1.div(matrix2).toString());*/
+        System.out.println(matrix1.div(matrix2).toString());
         System.out.println(matrix3.dot(matrix3).toString());
-        System.out.println(matrix1.frobenius());
+        System.out.println(matrix1.frobenius());*/
+
+        //transposition
+        Matrix m = new Matrix(new double[][]{{1,2,3,4},{5,6,7,8},{9,10,11,12}});
+        Matrix mT = m.getTransposition();
+        System.out.println(mT.toString());
     }
 }

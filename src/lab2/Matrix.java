@@ -237,4 +237,18 @@ public class Matrix {
         }
         return m;
     }
+
+    //////// GRUPA B ////////
+
+    public Matrix getTransposition() {
+        Matrix mT = new Matrix(this.cols, this.rows);
+        for(int i = 0; i < mT.rows; i++) {
+            for (int j = 0; j < mT.cols; j++) {
+                mT.set(i, j, this.get(j,i));
+            }
+        }
+        return mT;
+    }
+
+    //////// //////// ////////
 }
