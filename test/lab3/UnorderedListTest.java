@@ -5,34 +5,31 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class PhotoTest {
+public class UnorderedListTest {
     @Test
     public void writeHTML() throws Exception {
-        String imageUrl = "jan-kowalski.png";
-        // Utwórz strumień zapisujący w pamięci
+        List<ListItem> list_of_items = new ArrayList<>() ;
+
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(os);
-        // Utwórz obiekt i zapisz do strumienia
-        new Photo(imageUrl).writeHTML(ps);
+        new UnorderedList().writeHTML(ps);
         String result = null;
-        // Pobierz jako String
-        try {
+
+        try{
             result = os.toString("UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        //System.out.println(result);
+        System.out.println(result);
 
-        // Sprawdź, czy result zawiera wybrane elementy
-        assertTrue(result.contains("<img"));
-        assertTrue(result.contains("/>"));
-        assertTrue(result.contains("src="));
-        assertTrue(result.contains(imageUrl));
-
+        assertTrue(result.contains("<ul>"));
+        assertTrue(result.contains("</ul"));
     }
 
 }

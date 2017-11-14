@@ -8,18 +8,20 @@ import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.assertTrue;
 
-public class PhotoTest {
+public class ParagraphTest {
     @Test
     public void writeHTML() throws Exception {
-        String imageUrl = "jan-kowalski.png";
-        // Utwórz strumień zapisujący w pamięci
+        String content = "nananananana" +
+                "nanananananananananana" +
+                "lalalalalal" +
+                "uuuuuuuuuuuuuuuuuuuuuuuuuuuuuu uuu";
+
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(os);
-        // Utwórz obiekt i zapisz do strumienia
-        new Photo(imageUrl).writeHTML(ps);
+        new Paragraph(content).writeHTML(ps);
         String result = null;
-        // Pobierz jako String
-        try {
+
+        try{
             result = os.toString("UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -27,12 +29,9 @@ public class PhotoTest {
 
         //System.out.println(result);
 
-        // Sprawdź, czy result zawiera wybrane elementy
-        assertTrue(result.contains("<img"));
-        assertTrue(result.contains("/>"));
-        assertTrue(result.contains("src="));
-        assertTrue(result.contains(imageUrl));
-
+        assertTrue(result.contains("<p>"));
+        assertTrue(result.contains("</p"));
+        assertTrue(result.contains(content));
     }
 
 }
