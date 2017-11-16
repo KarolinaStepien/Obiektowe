@@ -14,7 +14,11 @@ public class SectionTest {
         String title = "Jan Kowalski";
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(os);
-        new Section(title).writeHTML(ps);
+        Paragraph nana = new Paragraph("aaa");
+        new Section(title).
+                addParagraph(nana).
+                writeHTML(ps);
+
         String result = null;
 
         try {
@@ -27,7 +31,7 @@ public class SectionTest {
 
         assertTrue(result.contains("<section>"));
         assertTrue(result.contains("<h2>"));
-        assertTrue(result.contains("</"));
+        assertTrue(result.contains("<p"));
         assertTrue(result.contains(title));
 
     }
