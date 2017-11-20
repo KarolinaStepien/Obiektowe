@@ -1,13 +1,26 @@
 package lab3;
 
-import java.io.PrintStream;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@XmlRootElement
 public class Document {
+    @XmlAttribute
     protected String title;
+    @XmlElement
     protected Photo photo;
+    @XmlElement(name = "section")
     protected List<Section> sections = new ArrayList<>();
+
+    Document(){}
 
     Document(String title){
         this.setTitle(title);
@@ -46,5 +59,29 @@ public class Document {
         }
         out.printf("</body>\n" +
                 "</html>\n");
+    }
+
+    public void write(String fileName){
+        try {
+            JAXBContext jc = JAXBContext.newInstance(Document.class);
+            Marshaller m = jc.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            FileWriter writer= new FileWriter(fileName);;
+            m.marshal(this, writer);
+        } catch (JAXBException | IOException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+    public static Document read(String fileName){
+        try {
+            JAXBContext jc = JAXBContext.newInstance(Document.class);
+            Unmarshaller m = jc.createUnmarshaller();
+            FileReader reader = new FileReader(fileName);
+            return (Document) m.unmarshal(reader);
+        } catch (JAXBException | FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

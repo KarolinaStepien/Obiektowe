@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<document title="Jana Kowalski - CV">
+    <photo url="..."/>
+    <section title="Wykształcenie">
+        <paragraph>2000-2005 Przedszkole im. Królewny Snieżki w ...</paragraph>
+        <paragraph>2006-2012 SP7 im Ronalda Regana w ...</paragraph>
+        <paragraph>...</paragraph>
+    </section>
+    <section title="Umiejętności">
+        <paragraph-with-list>Języki programowania
+            <list>
+                <items>C</items>
+                <items>C++</items>
+                <items>Java</items>
+            </list>
+        </paragraph-with-list>
+    </section>
+</document>

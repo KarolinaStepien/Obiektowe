@@ -1,8 +1,10 @@
 package lab3;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import java.io.PrintStream;
 
 public class Photo {
+    @XmlAttribute
     protected String url;
 
     Photo(String url){

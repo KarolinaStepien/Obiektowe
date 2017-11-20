@@ -29,5 +29,9 @@ public class Main {
             e.printStackTrace();
         }
 
+        cv.write("cv.xml");
+        //Document cv2 = Document.read("cv.xml");
+        //cv2.writeHTML(System.out);
+
     }
 }

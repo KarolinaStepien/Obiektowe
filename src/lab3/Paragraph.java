@@ -1,8 +1,10 @@
 package lab3;
 
+import javax.xml.bind.annotation.XmlValue;
 import java.io.PrintStream;
 
 public class Paragraph {
+    @XmlValue
     protected String content;
 
     Paragraph(){

@@ -1,8 +1,10 @@
 package lab3;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.PrintStream;
 
 public class ParagraphWithList extends Paragraph {
+    @XmlElement(name = "list")
     protected UnorderedList ulist;
 
     ParagraphWithList(){
