@@ -1,6 +1,12 @@
 package lab4;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class CSVReader {
@@ -54,7 +60,7 @@ public class CSVReader {
             return;
         }
         // podziel na pola
-        String[] header = line.split(delimiter);
+        String[] header = split(line);
         // przetwarzaj dane w wierszu
         for (int i = 0; i < header.length; i++) {
             // dodaj nazwy kolumn do columnLabels i numery do columnLabelsToInt
@@ -69,7 +75,7 @@ public class CSVReader {
         if(line==null){
             return false;
         }
-        this.current = line.split(delimiter);
+        this.current = split(line);
         return true;
     }
 
@@ -79,89 +85,109 @@ public class CSVReader {
     }
 
     //zwraca długość bieżącego wczytanego rekordu
-    int getRecordLength() throws IOException {
+    int getRecordLength(){
         return current.length;
     }
 
     //czy wartość istnieje w bieżącym rekordzie
-    boolean isMissing(int columnIndex) throws IOException {
-        return columnIndex >= this.getRecordLength();
+    boolean isMissing(int columnIndex){
+        return columnIndex >= this.getRecordLength() || Objects.equals(current[columnIndex], "");
     }
 
     //analogiczny dostęp przez etykietę kolumny
     boolean isMissing(String columnLabel){
-        return current[columnLabelsToInt.get(columnLabel)].equals("");
+        return columnLabelsToInt.get(columnLabel) >= this.getRecordLength() || current[columnLabelsToInt.get(columnLabel)].equals("");
     }
 
-    String get(int columnIndex){ //wyjatki
+    String get(int columnIndex){
+        if(columnIndex>current.length || columnIndex<0 || Objects.equals(current[columnIndex], "")) {
+            throw new RuntimeException("Coś nie tak z tymi kolumnami");
+        }
         return current[columnIndex];
     }
 
     //zwraca wartość jako String, raczej pusty tekst, a nie null
-    String get(String columnLabel){ //wyjatki
+    String get(String columnLabel){
+        if(columnLabelsToInt.get(columnLabel)>current.length || columnLabelsToInt.get(columnLabel)<0 ||
+                Objects.equals(current[columnLabelsToInt.get(columnLabel)], "")) {
+            throw new RuntimeException("Coś nie tak z tymi kolumnami");
+        }
         return current[columnLabelsToInt.get(columnLabel)];
     }
 
     //funkcja konwertuje wartość do int, użyj Integer.parseInt()
     //funkcja wygeneruje wyjątek, jeśli pole było puste
-    int getInt(int columnIndex) throws IndexOutOfBoundsException, EmptyFieldException { //wyjatki
-        if(Objects.equals(this.get(columnIndex), "")){
-            throw new EmptyFieldException(columnIndex);
-        }
-        if (columnIndex >= columnLabels.size() || columnIndex < 0) {
-            throw new IndexOutOfBoundsException();
+    int getInt(int columnIndex){
+        if(columnIndex>current.length || columnIndex<0 || Objects.equals(current[columnIndex], "")) {
+            throw new RuntimeException("Coś nie tak z tymi kolumnami");
         }
         return Integer.parseInt(current[columnIndex]);
     }
 
-    int getInt(String columnLabel) throws IndexOutOfBoundsException, EmptyFieldException {
-        if(Objects.equals(this.get(columnLabel), "")){
-            throw new EmptyFieldException(columnLabelsToInt.get(columnLabel));
+    int getInt(String columnLabel){
+        if(columnLabelsToInt.get(columnLabel)>current.length || columnLabelsToInt.get(columnLabel)<0 ||
+                Objects.equals(current[columnLabelsToInt.get(columnLabel)], "")) {
+            throw new RuntimeException("Coś nie tak z tymi kolumnami");
         }
-        if (columnLabelsToInt.get(columnLabel) >= columnLabels.size() || (columnLabelsToInt.get(columnLabel) < 0)) {
-            throw new IndexOutOfBoundsException();
-        }
-        return Integer.parseInt(this.get(columnLabel));
+        return Integer.parseInt(this.get(columnLabel)); //Integer.parseInt(current[columnLabelsToInt.get(columnLabel)])
     }
 
-    long getLong(int columnIndex) throws IndexOutOfBoundsException, EmptyFieldException { //wyjatki
-        if(Objects.equals(this.get(columnIndex), "")){
-            throw new EmptyFieldException(columnIndex);
-        }
-        if (columnIndex >= columnLabels.size() || columnIndex < 0) {
-            throw new IndexOutOfBoundsException();
+    long getLong(int columnIndex){
+        if(columnIndex>current.length || columnIndex<0 || Objects.equals(current[columnIndex], "")) {
+            throw new RuntimeException("Coś nie tak z tymi kolumnami");
         }
         return Long.parseLong(current[columnIndex]);
     }
 
-    long getLong(String columnLabel) throws IndexOutOfBoundsException, EmptyFieldException {
-        if(Objects.equals(this.get(columnLabel), "")){
-            throw new EmptyFieldException(columnLabelsToInt.get(columnLabel));
-        }
-        if (columnLabelsToInt.get(columnLabel) >= columnLabels.size() || columnLabelsToInt.get(columnLabel) < 0) {
-            throw new IndexOutOfBoundsException();
+    long getLong(String columnLabel){
+        if(columnLabelsToInt.get(columnLabel)>current.length || columnLabelsToInt.get(columnLabel)<0 ||
+                Objects.equals(current[columnLabelsToInt.get(columnLabel)], "")) {
+            throw new RuntimeException("Coś nie tak z tymi kolumnami");
         }
         return Long.parseLong(this.get(columnLabel));
     }
 
-    double getDouble(int columnIndex) throws IndexOutOfBoundsException, EmptyFieldException { //wyjatki
-        if(Objects.equals(this.get(columnIndex), "")){
-            throw new EmptyFieldException(columnIndex);
-        }
-        if (columnIndex >= columnLabels.size() || columnIndex < 0) {
-            throw new IndexOutOfBoundsException();
+    double getDouble(int columnIndex){
+        if(columnIndex>current.length || columnIndex<0 || Objects.equals(current[columnIndex], "")) {
+            throw new RuntimeException("Coś nie tak z tymi kolumnami");
         }
         return Double.parseDouble(current[columnIndex]);
     }
 
-    double getDouble(String columnLabel) throws IndexOutOfBoundsException, EmptyFieldException {
-        if(Objects.equals(this.get(columnLabel), "")){
-            throw new EmptyFieldException(columnLabelsToInt.get(columnLabel));
-        }
-        if (columnLabelsToInt.get(columnLabel) >= columnLabels.size() || columnLabelsToInt.get(columnLabel) < 0) {
-            throw new IndexOutOfBoundsException();
+    double getDouble(String columnLabel){
+        if(columnLabelsToInt.get(columnLabel)>current.length || columnLabelsToInt.get(columnLabel)<0 ||
+                Objects.equals(current[columnLabelsToInt.get(columnLabel)], "")) {
+            throw new RuntimeException("Coś nie tak z tymi kolumnami");
         }
         return Double.parseDouble(this.get(columnLabel));
     }
 
+    String[] split(String line) {
+        String[] splitLine = line.split(this.delimiter + "(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+
+        for (int i = 0; i < splitLine.length; i++) {
+            splitLine[i] = this.trimQuotes(splitLine[i]);
+        }
+        return splitLine;
+    }
+
+    String trimQuotes(String str) {
+        return str.replaceAll("^\"", "").replaceAll("\"$", "");
+    }
+
+    LocalDate getDate(int columnIndex, DateTimeFormatter format){
+        return LocalDate.parse(current[columnIndex],format);
+    }
+
+    LocalDate getDate(String columnLabel, DateTimeFormatter format){
+        return LocalDate.parse(current[columnLabelsToInt.get(columnLabel)], format);
+    }
+
+    LocalTime getTime(int columnIndex, DateTimeFormatter format){
+        return LocalTime.parse(current[columnIndex],format);
+    }
+
+    LocalTime getTime(String columnLabel, DateTimeFormatter format){
+        return LocalTime.parse(current[columnLabelsToInt.get(columnLabel)], format);
+    }
 }
