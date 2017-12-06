@@ -34,13 +34,13 @@ public class CSVReader {
         if(hasHeader)parseHeader();
     }
 
-    CSVReader(String filename,String delimiter) throws IOException {
+    public CSVReader(String filename,String delimiter) throws IOException {
         reader = new BufferedReader(new FileReader(filename));
         this.delimiter = delimiter;
         hasHeader = false;
     }
 
-    CSVReader(String filename) throws IOException {
+    public CSVReader(String filename) throws IOException {
         reader = new BufferedReader(new FileReader(filename));
         this.delimiter = ",";
         hasHeader = false;
@@ -53,7 +53,7 @@ public class CSVReader {
         if(hasHeader)parseHeader();
     }
 
-    void parseHeader() throws IOException {
+    public void parseHeader() throws IOException {
         // wczytaj wiersz
         String line = reader.readLine();
         if (line == null) {
@@ -69,7 +69,7 @@ public class CSVReader {
         }
     }
 
-    boolean next() throws IOException {
+    public boolean next() throws IOException {
         // czyta następny wiersz, dzieli na elementy i przypisuje do current
         String line = reader.readLine();
         if(line==null){
@@ -80,26 +80,26 @@ public class CSVReader {
     }
 
     //zwraca etykiety kolumn
-    List<String> getColumnLabels(){
+    public List<String> getColumnLabels(){
         return columnLabels;
     }
 
     //zwraca długość bieżącego wczytanego rekordu
-    int getRecordLength(){
+    public int getRecordLength(){
         return current.length;
     }
 
     //czy wartość istnieje w bieżącym rekordzie
-    boolean isMissing(int columnIndex){
+    public boolean isMissing(int columnIndex){
         return columnIndex >= this.getRecordLength() || Objects.equals(current[columnIndex], "");
     }
 
     //analogiczny dostęp przez etykietę kolumny
-    boolean isMissing(String columnLabel){
+    public boolean isMissing(String columnLabel){
         return columnLabelsToInt.get(columnLabel) >= this.getRecordLength() || current[columnLabelsToInt.get(columnLabel)].equals("");
     }
 
-    String get(int columnIndex){
+    public String get(int columnIndex){
         if(columnIndex>current.length || columnIndex<0 || Objects.equals(current[columnIndex], "")) {
             throw new RuntimeException("Coś nie tak z tymi kolumnami");
         }
@@ -107,7 +107,7 @@ public class CSVReader {
     }
 
     //zwraca wartość jako String, raczej pusty tekst, a nie null
-    String get(String columnLabel){
+    public String get(String columnLabel){
         if(columnLabelsToInt.get(columnLabel)>current.length || columnLabelsToInt.get(columnLabel)<0 ||
                 Objects.equals(current[columnLabelsToInt.get(columnLabel)], "")) {
             throw new RuntimeException("Coś nie tak z tymi kolumnami");
@@ -117,14 +117,14 @@ public class CSVReader {
 
     //funkcja konwertuje wartość do int, użyj Integer.parseInt()
     //funkcja wygeneruje wyjątek, jeśli pole było puste
-    int getInt(int columnIndex){
+    public int getInt(int columnIndex){
         if(columnIndex>current.length || columnIndex<0 || Objects.equals(current[columnIndex], "")) {
             throw new RuntimeException("Coś nie tak z tymi kolumnami");
         }
         return Integer.parseInt(current[columnIndex]);
     }
 
-    int getInt(String columnLabel){
+    public int getInt(String columnLabel){
         if(columnLabelsToInt.get(columnLabel)>current.length || columnLabelsToInt.get(columnLabel)<0 ||
                 Objects.equals(current[columnLabelsToInt.get(columnLabel)], "")) {
             throw new RuntimeException("Coś nie tak z tymi kolumnami");
@@ -132,14 +132,14 @@ public class CSVReader {
         return Integer.parseInt(this.get(columnLabel)); //Integer.parseInt(current[columnLabelsToInt.get(columnLabel)])
     }
 
-    long getLong(int columnIndex){
+    public long getLong(int columnIndex){
         if(columnIndex>current.length || columnIndex<0 || Objects.equals(current[columnIndex], "")) {
             throw new RuntimeException("Coś nie tak z tymi kolumnami");
         }
         return Long.parseLong(current[columnIndex]);
     }
 
-    long getLong(String columnLabel){
+    public long getLong(String columnLabel){
         if(columnLabelsToInt.get(columnLabel)>current.length || columnLabelsToInt.get(columnLabel)<0 ||
                 Objects.equals(current[columnLabelsToInt.get(columnLabel)], "")) {
             throw new RuntimeException("Coś nie tak z tymi kolumnami");
@@ -147,14 +147,14 @@ public class CSVReader {
         return Long.parseLong(this.get(columnLabel));
     }
 
-    double getDouble(int columnIndex){
+    public double getDouble(int columnIndex){
         if(columnIndex>current.length || columnIndex<0 || Objects.equals(current[columnIndex], "")) {
             throw new RuntimeException("Coś nie tak z tymi kolumnami");
         }
         return Double.parseDouble(current[columnIndex]);
     }
 
-    double getDouble(String columnLabel){
+    public double getDouble(String columnLabel){
         if(columnLabelsToInt.get(columnLabel)>current.length || columnLabelsToInt.get(columnLabel)<0 ||
                 Objects.equals(current[columnLabelsToInt.get(columnLabel)], "")) {
             throw new RuntimeException("Coś nie tak z tymi kolumnami");
@@ -162,7 +162,7 @@ public class CSVReader {
         return Double.parseDouble(this.get(columnLabel));
     }
 
-    String[] split(String line) {
+    public String[] split(String line) {
         String[] splitLine = line.split(this.delimiter + "(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
 
         for (int i = 0; i < splitLine.length; i++) {
@@ -171,23 +171,23 @@ public class CSVReader {
         return splitLine;
     }
 
-    String trimQuotes(String str) {
+    public String trimQuotes(String str) {
         return str.replaceAll("^\"", "").replaceAll("\"$", "");
     }
 
-    LocalDate getDate(int columnIndex, DateTimeFormatter format){
+    public LocalDate getDate(int columnIndex, DateTimeFormatter format){
         return LocalDate.parse(current[columnIndex],format);
     }
 
-    LocalDate getDate(String columnLabel, DateTimeFormatter format){
+    public LocalDate getDate(String columnLabel, DateTimeFormatter format){
         return LocalDate.parse(current[columnLabelsToInt.get(columnLabel)], format);
     }
 
-    LocalTime getTime(int columnIndex, DateTimeFormatter format){
+    public LocalTime getTime(int columnIndex, DateTimeFormatter format){
         return LocalTime.parse(current[columnIndex],format);
     }
 
-    LocalTime getTime(String columnLabel, DateTimeFormatter format){
+    public LocalTime getTime(String columnLabel, DateTimeFormatter format){
         return LocalTime.parse(current[columnLabelsToInt.get(columnLabel)], format);
     }
 }
