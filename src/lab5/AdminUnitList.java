@@ -5,10 +5,14 @@ import lab4.CSVReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AdminUnitList {
     List<AdminUnit> units = new ArrayList<>();
+    Map<Long, AdminUnit> idToUnit = new HashMap<>();
+    Map<AdminUnit, Long> unitToParentId = new HashMap<>();
 
     //czyta rekordy pliku i dodaje do listy
     public void read(String filename) throws IOException {
@@ -32,8 +36,25 @@ public class AdminUnitList {
             if(!reader.isMissing("density")) {
                 au.density = reader.getDouble("density");
             }
-
+            if(!reader.isMissing("id")) {
+                idToUnit.put(reader.getLong("id"), au);
+            }
+            if(!reader.isMissing("parent")) {
+                unitToParentId.put(au, reader.getLong("parent"));
+            }
+            else { //if(reader.isMissing("parent")) {
+                unitToParentId.put(au, null);
+            }
             units.add(au);
+        }
+        for(AdminUnit a : units){
+            if(unitToParentId.containsKey(a)) {
+                Long parentId = unitToParentId.get(a);
+                if (idToUnit.containsKey(parentId)) {
+                    a.parent = idToUnit.get(parentId);
+                    a.parent.children.add(a);
+                }
+            }
         }
     }
 
@@ -53,7 +74,7 @@ public class AdminUnitList {
     }
 
     //zwraca nową listę zawierającą te obiekty AdminUnit, których nazwa pasuje do wzorca
-    AdminUnitList selectByName(String pattern, boolean regex){
+    public AdminUnitList selectByName(String pattern, boolean regex){
         AdminUnitList ret = new AdminUnitList();
         for(AdminUnit a : units){
             if(regex){
@@ -64,5 +85,12 @@ public class AdminUnitList {
             }
         }
         return ret;
+    }
+
+    //uzupelnienie brakujacych wartosci dla wszystkich jednostek
+    protected void fixAll(){
+        for(AdminUnit u : units){
+            u.fixMissingValues();
+        }
     }
 }

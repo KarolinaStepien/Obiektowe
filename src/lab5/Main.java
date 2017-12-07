@@ -9,6 +9,7 @@ public class Main {
 
         try {
             aul.read(filename);
+            aul.fixAll();
             aul.list(System.out, 4, 3);
             System.out.println();
             aul.selectByName("Kraków", false).list(System.out);

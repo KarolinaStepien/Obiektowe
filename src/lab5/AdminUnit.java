@@ -1,5 +1,8 @@
 package lab5;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AdminUnit {
     String name;
     int adminLevel;
@@ -7,17 +10,10 @@ public class AdminUnit {
     double area;
     double density;
     AdminUnit parent;
-    BoundingBox bbox = new BoundingBox();
+    //BoundingBox bbox = new BoundingBox();
+    List<AdminUnit> children = new ArrayList<>();
 
     public AdminUnit(){}
-
-    /*public AdminUnit(String name, int adminLevel, double population, double area, double density){
-        this.name = name;
-        this.adminLevel = adminLevel;
-        this.population = population;
-        this.area = area;
-        this.density = density;
-    }*/
 
     public String toString(){
         StringBuilder sb = new StringBuilder(String.format(
@@ -26,5 +22,18 @@ public class AdminUnit {
         //String s = "%d" + Integer.toString(this.adminLevel);
         //String s2 = "%d" + String.valueOf(this.adminLevel);
         return sb.toString();
+    }
+
+    //uzupelnienie brakujacych wartosci dla danego elementu
+    protected void fixMissingValues(){
+        if(this.density == 0 && this.parent != null){
+            if(this.parent.density == 0) {
+                this.parent.fixMissingValues();
+            }
+            this.density = this.parent.density;
+        }
+        if(this.population == 0){
+            this.population = this.area*this.density;
+        }
     }
 }
