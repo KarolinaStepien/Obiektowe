@@ -10,7 +10,7 @@ public class AdminUnit {
     double area;
     double density;
     AdminUnit parent;
-    //BoundingBox bbox = new BoundingBox();
+    BoundingBox bbox = new BoundingBox();
     List<AdminUnit> children = new ArrayList<>();
 
     public AdminUnit(){}
