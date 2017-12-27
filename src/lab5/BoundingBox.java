@@ -110,11 +110,10 @@ public class BoundingBox {
      * (ang. haversine formula)
      */
     double distanceTo(BoundingBox bbx) {
-        if(this.isEmpty()) {
+        if(this.isEmpty() || bbx.isEmpty()) {
             throw new RuntimeException("Not implemented");
         }
-        return Math.sqrt(Math.pow(Math.abs(this.getCenterX()-bbx.getCenterX()),2) +
-                Math.pow(Math.abs(this.getCenterY()-bbx.getCenterY()),2));
+        return CoordinatesCalculator.distanceBetween(this.getCenterX(), this.getCenterY(), bbx.getCenterX(), bbx.getCenterY());
     }
 
 }
