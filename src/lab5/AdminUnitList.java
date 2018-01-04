@@ -42,6 +42,20 @@ public class AdminUnitList {
             if(!reader.isMissing("parent")) {
                 unitToParentId.put(au, reader.getLong("parent"));
             }
+
+            if(!reader.isMissing("x1") && !reader.isMissing("y1")){
+                au.bbox.addPoint(reader.getDouble("x1"), reader.getDouble("y1"));
+            }
+            if(!reader.isMissing("x2") && !reader.isMissing("y2")){
+                au.bbox.addPoint(reader.getDouble("x2"), reader.getDouble("y2"));
+            }
+            if(!reader.isMissing("x3") && !reader.isMissing("y3")){
+                au.bbox.addPoint(reader.getDouble("x3"), reader.getDouble("y3"));
+            }
+            if(!reader.isMissing("x4") && !reader.isMissing("y4")){
+                au.bbox.addPoint(reader.getDouble("x4"), reader.getDouble("y4"));
+            }
+
             else { //if(reader.isMissing("parent")) {
                 unitToParentId.put(au, null);
             }
@@ -92,5 +106,32 @@ public class AdminUnitList {
         for(AdminUnit u : units){
             u.fixMissingValues();
         }
+    }
+
+    /**
+     * Zwraca listę jednostek sąsiadujących z jendostką unit na tym samym poziomie hierarchii admin_level.
+     * Czyli sąsiadami wojweództw są województwa, powiatów - powiaty, gmin - gminy, miejscowości - inne miejscowości
+     * @param unit - jednostka, której sąsiedzi mają być wyznaczeni
+     * @param maxdistance - parametr stosowany wyłącznie dla miejscowości, maksymalny promień odległości od środka unit,
+     *                    w którym mają sie znaleźć punkty środkowe BoundingBox sąsiadów
+     * @return lista wypełniona sąsiadami
+     */
+    AdminUnitList getNeighbors(AdminUnit unit, double maxdistance){
+        AdminUnitList neighborsList = new AdminUnitList();
+        for(AdminUnit au : units){
+            if(unit.adminLevel == au.adminLevel){
+                if(unit.adminLevel == 8){
+                    if(unit.bbox.distanceTo(au.bbox)<maxdistance){
+                        neighborsList.units.add(au);
+                    }
+                }
+                else{
+                    if(unit.bbox.intersects(au.bbox)){
+                        neighborsList.units.add(au);
+                    }
+                }
+            }
+        }
+        return neighborsList;
     }
 }

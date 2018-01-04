@@ -50,10 +50,13 @@ public class BoundingBox {
      * @return
      */
     boolean intersects(BoundingBox bb) {
-        return this.contains(bb.xmin, bb.ymin) || this.contains(bb.xmin, bb.ymax) ||
-                this.contains(bb.xmax, bb.ymin) || this.contains(bb.xmax, bb.ymax) ||
-                bb.contains(xmin, ymin) || bb.contains(xmin, ymax) ||
-                bb.contains(xmax, ymin) || bb.contains(xmax, ymax);
+        if (!isEmpty() && !bb.isEmpty()) {
+            return this.contains(bb.xmin, bb.ymin) || this.contains(bb.xmin, bb.ymax) ||
+                    this.contains(bb.xmax, bb.ymin) || this.contains(bb.xmax, bb.ymax) ||
+                    bb.contains(xmin, ymin) || bb.contains(xmin, ymax) ||
+                    bb.contains(xmax, ymin) || bb.contains(xmax, ymax);
+        }
+        return false;
     }
 
     /**
@@ -110,10 +113,10 @@ public class BoundingBox {
      * (ang. haversine formula)
      */
     double distanceTo(BoundingBox bbx) {
-        if(this.isEmpty() || bbx.isEmpty()) {
-            throw new RuntimeException("Not implemented");
+        if(!this.isEmpty() && !bbx.isEmpty()) {
+            return CoordinatesCalculator.distanceBetween(this.getCenterX(), this.getCenterY(), bbx.getCenterX(), bbx.getCenterY());
         }
-        return CoordinatesCalculator.distanceBetween(this.getCenterX(), this.getCenterY(), bbx.getCenterX(), bbx.getCenterY());
+        return 4007500;
     }
 
 }
