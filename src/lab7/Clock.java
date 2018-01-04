@@ -1,7 +1,6 @@
 package lab7;
 
 import java.time.LocalTime;
-///
 
 public class Clock extends Thread{
 
