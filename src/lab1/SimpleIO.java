@@ -1,7 +1,6 @@
 package lab1;
 
 import java.util.Scanner;
-//import java.util.Locale;
 
 public class SimpleIO {
     public static void main(String[] args) {
