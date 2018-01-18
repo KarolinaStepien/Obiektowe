@@ -1,5 +1,4 @@
 package lab2;
-//ctrl+alt+l uładnia kod
 
 import java.util.Random;
 
