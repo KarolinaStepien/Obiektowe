@@ -3,17 +3,17 @@ package kolokwium;
 import lab4.CSVReader;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.TreeMap;
 
 public class BooksReader {
 
     public static void main(String[] args) throws IOException {
 
         CSVReader reader = new CSVReader("src/kolokwium/ibuk_wykaz_pozycji.csv", ";", true);
-        Map<Integer, Integer> newmap = new TreeMap<>();
-        Map<String, Integer> newmap2 = new TreeMap<>();
+        Map<Integer, Integer> newmap = new HashMap<>();
+        Map<String, Integer> newmap2 = new HashMap<>();
         //HashMap newmap = new HashMap();
         //HashMap newmap2 = new HashMap();
         while (reader.next()) {
