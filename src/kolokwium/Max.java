@@ -28,40 +28,36 @@ public class Max {
         }
 
         public void run() {
-            double maxEl = 0;
+            double m = 0;
             for (int i = start; i < end; i++) {
-                if(array[i]>maxEl){
-                    maxEl = array[i];
+                if (array[i] > m) {
+                    m = array[i];
                 }
             }
-            try {
-                results.put(maxEl);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            max = m;
+            System.out.printf(Locale.US, "%d-%d max=%f\n", start, end, max);
         }
-
     }
 
     static void parallelMax(int cnt) throws InterruptedException {
         MaxCalc threads[] = new MaxCalc[cnt];
-        int equal = array.length/cnt;
-        for(int i=0; i<cnt; i++){
-            threads[i] = new MaxCalc(i*equal, (i+1)*equal-1);
+        int equal = array.length / cnt;
+        for (int i = 0; i < cnt; i++) {
+            threads[i] = new MaxCalc(i * equal, (i + 1) * equal - 1);
         }
         double t1 = System.nanoTime() / 1e6;
-        for(MaxCalc mc : threads){
+        for (MaxCalc mc : threads) {
             mc.run();
         }
         double t2 = System.nanoTime() / 1e6;
-        /*for (MaxCalc mc : threads) {
-            results.put(mc.max);
-        }*/
-        double max = 0;
         for (MaxCalc mc : threads) {
-            double a = results.take();
-            if(a > max){
-                max = a;
+            results.put(mc.max);
+        }
+        double m = 0;
+        for (MaxCalc mc : threads) {
+            double rt = results.take();
+            if (rt > m) {
+                m = rt;
             }
         }
         double t3 = System.nanoTime() / 1e6;
@@ -70,12 +66,11 @@ public class Max {
                 cnt,
                 t2 - t1,
                 t3 - t1,
-                max);
+                m);
     }
 
     public static void main(String[] args) {
         initArray(10000000);
-        //new MaxCalc(2, 8).run();
         try {
             parallelMax(10);
         } catch (InterruptedException e) {
