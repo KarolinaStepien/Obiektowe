@@ -1,23 +1,21 @@
 package kolokwium;
 
 public class IbukUnit {
-    double id;
+    int id;
     String tytul;
     String autor;
     String isbn;
     String wydawnictwo;
-    double rok;
+    int rok;
     String kategoria;
     String podkategoria;
     String link;
 
     public IbukUnit(){}
 
-    public String toString(){
+    public String titleToString(){
         StringBuilder sb = new StringBuilder(String.format(
-                "Ibuk ID: %f, Tytuł: %s, Autor: %s, ISBN: %s, Wydawnictwo: %s, Rok wydania: %f," +
-                        " Kategoria: %s, Podkategoria: %s, Link do książki: %s ",
-                this.id, this.tytul, this.autor, this.isbn, this.wydawnictwo, this.rok, this.kategoria, this.podkategoria, this.link));
+                "%s", this.tytul));
         return sb.toString();
     }
 }

@@ -3,6 +3,7 @@ package kolokwium;
 import lab4.CSVReader;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -27,7 +28,7 @@ public class IbukUnitList {
             IbukUnit au = new IbukUnit();
 
             if (!reader.isMissing("Ibuk ID")) {
-                au.id = reader.getDouble("Ibuk ID");
+                au.id = reader.getInt("Ibuk ID");
             }
             if (!reader.isMissing("Tytuł")) {
                 au.tytul = reader.get("Tytuł");
@@ -42,7 +43,7 @@ public class IbukUnitList {
                 au.wydawnictwo = reader.get("Wydawnictwo");
             }
             if (!reader.isMissing("Rok wydania")) {
-                au.rok = reader.getDouble("Rok wydania");
+                au.rok = reader.getInt("Rok wydania");
             }
             if (!reader.isMissing("Kategoria")) {
                 au.kategoria = reader.get("Kategoria");
@@ -57,8 +58,12 @@ public class IbukUnitList {
         }
     }
 
-    //FILTROWANIE
-    //tylko te jednostki, dla których metoda test() zwraca true
+    public void list(PrintStream out) {
+        for (IbukUnit a : units) {
+            out.println(a.titleToString());
+        }
+    }
+
     IbukUnitList filter(Predicate<IbukUnit> pred) { //referencja do interfejsu Predicate
         return new IbukUnitList(units.stream().filter(pred));
     }

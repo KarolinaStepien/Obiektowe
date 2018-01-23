@@ -15,8 +15,8 @@ public class Main {
         }
 
         //wydawnictwo
-        IbukUnitList niul = iul.filter(a -> a.wydawnictwo.equals("Wydawnictwo Naukowe PWN"));
-        System.out.println("PWN: " + niul.units.size() + " pozycji");
+        System.out.println("Wydawnictwo Naukowe PWN:");
+        iul.filter(a -> a.wydawnictwo.equals("Wydawnictwo Naukowe PWN")).list(System.out);
 
         //kategoria
         Map<String, Integer> kategoria_ilosc = new TreeMap<>();
@@ -28,10 +28,11 @@ public class Main {
                 kategoria_ilosc.replace(u.kategoria, kategoria_ilosc.get(u.kategoria)+1);
             }
         }
+        System.out.println("Kategorie: ");
         System.out.println(kategoria_ilosc.toString());
 
         //rok
-        Map<Double, Integer> rok_ilosc = new TreeMap<>();
+        Map<Integer, Integer> rok_ilosc = new TreeMap<>();
         for (IbukUnit u : iul.units){
             if (!rok_ilosc.containsKey(u.rok)){
                 rok_ilosc.put(u.rok, 1);
@@ -40,6 +41,7 @@ public class Main {
                 rok_ilosc.replace(u.rok, rok_ilosc.get(u.rok)+1);
             }
         }
+        System.out.println("Lata: ");
         System.out.println(rok_ilosc.toString());
     }
 }
