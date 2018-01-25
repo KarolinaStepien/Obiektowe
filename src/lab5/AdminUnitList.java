@@ -106,7 +106,7 @@ public class AdminUnitList {
     }
 
     //uzupelnienie brakujacych wartosci dla wszystkich jednostek
-    protected void fixAll() {
+    public void fixAll() {
         for (AdminUnit u : units) {
             u.fixMissingValues();
         }

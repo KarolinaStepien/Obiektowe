@@ -11,7 +11,7 @@ public class BoundingBox {
      * @param x - współrzędna x
      * @param y - współrzędna y
      */
-    void addPoint(double x, double y) {
+    public void addPoint(double x, double y) {
         if (this.isEmpty()) {
             xmin = x;
             xmax = x;
@@ -49,7 +49,7 @@ public class BoundingBox {
      * @param bb
      * @return
      */
-    boolean intersects(BoundingBox bb) {
+    public boolean intersects(BoundingBox bb) {
         if (!isEmpty() && !bb.isEmpty()) {
             return this.contains(bb.xmin, bb.ymin) || this.contains(bb.xmin, bb.ymax) ||
                     this.contains(bb.xmax, bb.ymin) || this.contains(bb.xmax, bb.ymax) ||
@@ -112,7 +112,7 @@ public class BoundingBox {
      * Ze względu na to, że są to współrzędne geograficzne, zamiast odległosci euklidesowej możesz użyć wzoru haversine
      * (ang. haversine formula)
      */
-    double distanceTo(BoundingBox bbx) {
+    public double distanceTo(BoundingBox bbx) {
         if(!this.isEmpty() && !bbx.isEmpty()) {
             return CoordinatesCalculator.distanceBetween(this.getCenterX(), this.getCenterY(), bbx.getCenterX(), bbx.getCenterY());
         }
