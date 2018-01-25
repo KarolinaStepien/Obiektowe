@@ -25,29 +25,32 @@ public class Main {
             if (unit.parent != null) {
                 p.printf("<p>Rodzic: <a href=\"%d.html\">%s</a></p>", aul.units.indexOf(unit.parent), unit.parent.name);
             }
-            if (unit.children != null) {
-                p.println("<p>Children:<ul>");
+            if (unit.children.size() != 0) {
+                p.println("<p>Dzieci:<ul>");
                 for (AdminUnit child : unit.children) {
                     p.printf("<li><a href=\"%d.html\">%s</a></p></li>", aul.units.indexOf(child), child.name);
                 }
                 p.println("</ul></p>");
             }
-            p.println("<p>Neighbours:<ul>");
-            for (AdminUnit neighbour : aul.getNeighbors(unit, 20).units) {
-                p.printf("<li><a href=\"%d.html\">%s</a></p></li>", aul.units.indexOf(neighbour), neighbour.name);
+            AdminUnitList neighbours = aul.getNeighbors(unit, 20);
+            if (neighbours != null && neighbours.units.size() != 0) {
+                p.println("<p>Sąsiedzi:<ul>");
+                for (AdminUnit neighbour : aul.getNeighbors(unit, 20).units) {
+                    p.printf("<li><a href=\"%d.html\">%s</a></p></li>", aul.units.indexOf(neighbour), neighbour.name);
+                }
+                p.println("</ul></p>");
             }
-            p.println("</ul></p>");
-
-
             p.println("</body></html>");
         }
 
         PrintStream p = new PrintStream("src/kolokwium2/files/roots.html", "UTF-8");
-        p.println("<html><head><meta charset=\"utf-8\"><title>All units</title></head><body>");
-        p.println("<h1>Admin Units</h1><ul>");
+        p.println("<html><head><meta charset=\"utf-8\"><title>Województwa</title></head><body>");
+        p.println("<h1>Województwa: </h1><ul>");
         for (int i = 0; i < aul.units.size(); i++) {
             AdminUnit unit = aul.units.get(i);
-            p.printf("<li><a href=\"%d.html\">%s</a></li>\n", i, unit.name);
+            if (unit.adminLevel == 4) {
+                p.printf("<li><a href=\"%d.html\">%s</a></li>\n", i, unit.name);
+            }
         }
         p.println("</ul></body></html>");
     }

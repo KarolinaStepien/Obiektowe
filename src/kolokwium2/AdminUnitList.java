@@ -119,14 +119,16 @@ public class AdminUnitList {
     AdminUnitList getNeighbors(AdminUnit unit, double maxdistance) {
         AdminUnitList neighborsList = new AdminUnitList();
         for (AdminUnit au : units) {
-            if (unit.adminLevel == au.adminLevel) {
-                if (unit.adminLevel == 8) {
-                    if (unit.bbox.distanceTo(au.bbox) < maxdistance) {
-                        neighborsList.units.add(au);
-                    }
-                } else {
-                    if (unit.bbox.intersects(au.bbox)) {
-                        neighborsList.units.add(au);
+            if (au != unit) {
+                if (unit.adminLevel == au.adminLevel) {
+                    if (unit.adminLevel == 8) {
+                        if (unit.bbox.distanceTo(au.bbox) < maxdistance) {
+                            neighborsList.units.add(au);
+                        }
+                    } else {
+                        if (unit.bbox.intersects(au.bbox)) {
+                            neighborsList.units.add(au);
+                        }
                     }
                 }
             }
